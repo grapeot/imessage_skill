@@ -1,0 +1,30 @@
+[project]
+name = "imessage-skill"
+version = "0.1.0"
+description = "AI-first macOS iMessage send-only CLI skill"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "ruff>=0.4,<1",
+]
+
+[project.scripts]
+imessage-send = "imessage_skill.cli:main"
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+markers = [
+  "live_integration: tests that call the real macOS Messages app and are skipped by default",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.setuptools.packages.find]
+where = ["src"]
