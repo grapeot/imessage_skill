@@ -12,6 +12,9 @@
 - Ran a public-repo privacy scan for private handles; no matches found.
 - Added private `.env` loading for the live integration test to avoid leaking handles into shell history.
 - Verified live integration test: 1 passed, 6 deselected.
+- Added `IMESSAGE_LOAD_DOTENV=1` gate so default tests stay side-effect free even when private `.env` exists.
+- Re-verified default tests: 6 passed, 1 live integration test skipped by design.
+- Re-verified explicit live integration: 1 passed, 6 deselected.
 
 ## Lessons Learned
 

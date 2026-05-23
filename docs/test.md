@@ -28,12 +28,12 @@ The live test sends one real iMessage and is skipped unless all opt-in gates are
 IMESSAGE_ENABLE_LIVE_TESTS=1 \
 IMESSAGE_LIVE_ALLOW_SEND=1 \
 IMESSAGE_LIVE_TO=alice@example.com \
-.venv/bin/python -m pytest -v -m live_integration
+IMESSAGE_LOAD_DOTENV=1 .venv/bin/python -m pytest -v -m live_integration
 ```
 
 The test target belongs in private environment, not in tracked files. The first run may require the Mac user to approve Automation permissions.
 
-The live test also reads a private `.env` file from the repository root, so users can avoid putting private handles in shell history.
+The live test reads a private `.env` file from the repository root only when `IMESSAGE_LOAD_DOTENV=1` is set. This avoids putting private handles in shell history while keeping default `pytest` side-effect free.
 
 ## Manual Verification
 

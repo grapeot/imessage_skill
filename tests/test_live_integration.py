@@ -13,7 +13,8 @@ pytestmark = pytest.mark.live_integration
 
 
 def test_send_live_imessage_to_configured_handle(capsys: pytest.CaptureFixture[str]) -> None:
-    load_dotenv_if_present()
+    if os.environ.get("IMESSAGE_LOAD_DOTENV") == "1":
+        load_dotenv_if_present()
 
     if os.environ.get("IMESSAGE_ENABLE_LIVE_TESTS") != "1":
         pytest.skip("set IMESSAGE_ENABLE_LIVE_TESTS=1 to enable live iMessage tests")

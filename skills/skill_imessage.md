@@ -80,10 +80,10 @@ Live integration sends a real iMessage and is skipped unless explicitly enabled:
 IMESSAGE_ENABLE_LIVE_TESTS=1 \
 IMESSAGE_LIVE_ALLOW_SEND=1 \
 IMESSAGE_LIVE_TO=alice@example.com \
-.venv/bin/python -m pytest -v -m live_integration
+IMESSAGE_LOAD_DOTENV=1 .venv/bin/python -m pytest -v -m live_integration
 ```
 
-The same variables can live in private `.env`; the live test reads it if present.
+The same variables can live in private `.env`; set `IMESSAGE_LOAD_DOTENV=1` to let the live test read it. This keeps default `pytest` from sending a real iMessage just because `.env` exists.
 
 ## Boundaries
 

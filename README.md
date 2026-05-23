@@ -97,13 +97,13 @@ Live integration is opt-in and sends a real iMessage:
 IMESSAGE_ENABLE_LIVE_TESTS=1 \
 IMESSAGE_LIVE_ALLOW_SEND=1 \
 IMESSAGE_LIVE_TO=alice@example.com \
-.venv/bin/python -m pytest -v -m live_integration
+IMESSAGE_LOAD_DOTENV=1 .venv/bin/python -m pytest -v -m live_integration
 ```
 
 You can also put those variables in private `.env` and run only:
 
 ```bash
-.venv/bin/python -m pytest -v -m live_integration
+IMESSAGE_LOAD_DOTENV=1 .venv/bin/python -m pytest -v -m live_integration
 ```
 
 Run the live test only when a Mac user is ready to approve any first-time macOS Automation prompt.
