@@ -1,4 +1,6 @@
-# RFC: macOS iMessage Send-Only Bridge
+# RFC: macOS iMessage Send Bridge
+
+Companion RFC for the read path: `docs/rfc_read.md` (read-only `chat.db` access, `streamtyped` body decoding, `--confirm-read` gate). This document covers the send path only.
 
 ## Decision
 
@@ -39,6 +41,10 @@ The package module entry point is also stable:
 
 Dry-run is side-effect free. Real sends require `--confirm-send`. The CLI does not add its own per-recipient allowlist because contact aliasing is workspace-specific and belongs outside this publishable repository.
 
+### osascript argument injection
+
+User-controlled values (handle, message body, contact query) are passed to `osascript` as trailing arguments to the `on run` handler. Without a guard, a value starting with `-` is parsed by `osascript` itself as an option — e.g. a handle of `-e <script>` would be evaluated as AppleScript. Every osascript invocation therefore inserts `--` after the `-e <script>` argument to terminate option parsing, so all subsequent values reach the run handler as data. Verified empirically: without `--`, a dash-prefixed argument is consumed by osascript's option parser; with `--`, it is delivered to the handler intact.
+
 ## Privacy Model
 
 The public repo never stores real handles. Live test targets live in `.env`, which is gitignored. Workspace-specific contact aliases can point to this repo's skill document while storing private aliases in a separate private skill file.
@@ -49,4 +55,4 @@ The first real send from a launcher may trigger a macOS Automation prompt. This 
 
 ## Alternatives Considered
 
-Direct Messages database writes were rejected because they are private, brittle, and unsafe. Contacts lookup was rejected because the caller can provide the handle and private aliasing belongs in the workspace. UI scripting was rejected because it is less stable for a remote agent workflow.
+Direct Messages database writes were rejected because they are private, brittle, and unsafe. For the **send** path, Contacts lookup was rejected because the caller can provide the handle and private aliasing belongs in the workspace; the **read** path does resolve display names via Contacts, but only to locate a handle for local history lookup (see `docs/rfc_read.md`). UI scripting was rejected because it is less stable for a remote agent workflow.

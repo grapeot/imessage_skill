@@ -1,7 +1,7 @@
 [project]
 name = "imessage-skill"
-version = "0.1.0"
-description = "AI-first macOS iMessage send-only CLI skill"
+version = "0.2.0"
+description = "AI-first macOS iMessage CLI skill: send outbound messages and read local history"
 requires-python = ">=3.11"
 dependencies = []
 
