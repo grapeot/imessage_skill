@@ -2,15 +2,20 @@
 
 ## Project Role
 
-This repository provides an AI-first macOS iMessage sending skill: a Python library, CLI, and plain Markdown skill contract for sending iMessage messages from a Mac through `Messages.app`.
+This repository provides an AI-first macOS iMessage skill: a Python library, CLI, and plain Markdown skill contract for sending iMessage messages from a Mac through `Messages.app` and for reading local message history from `~/Library/Messages/chat.db`.
 
-It is not a message reader, contact manager, chat archive tool, or broad Messages automation framework. The only supported operation is sending a user-approved outbound iMessage to an explicit handle.
+Two supported operations:
+
+- **Send**: a user-approved outbound iMessage to an explicit handle, through the Messages AppleScript bridge.
+- **Read**: read-only inspection of local history (`read`, `search`, `chats`), gated by `--confirm-read`.
+
+It is not a message editor, contact manager, chat archive tool, or broad Messages automation framework. The read path never writes to `chat.db`.
 
 ## Project Structure
 
 - `README.md`: public installation and usage guide for humans and agents.
 - `docs/prd.md`: product scope, requirements, and success criteria.
-- `docs/rfc.md`: architecture, AppleScript bridge, privacy, and permission decisions.
+- `docs/rfc.md`: single architecture RFC covering both the send path (AppleScript bridge) and the read path (read-only `chat.db` access, `streamtyped` body decoding, `--confirm-read` gate), plus shared privacy and permission decisions.
 - `docs/test.md`: offline, mocked, and live integration test strategy.
 - `docs/working.md`: changelog and lessons learned.
 - `skills/skill_imessage.md`: canonical agent skill contract.
@@ -29,9 +34,11 @@ It is not a message reader, contact manager, chat archive tool, or broad Message
 ## Safety Boundaries
 
 - Real sends require `--confirm-send`; dry-run is the default safe workflow.
+- Read commands default to dry-run (counts only, no content). Message content requires `--confirm-read`.
+- The read path opens `chat.db` strictly read-only (`mode=ro`); it must never write to the database.
+- Contact name resolution (`--name`) queries the local Contacts app read-only; it is used only to locate handles for history lookup. Private alias-to-handle mappings still belong in workspace guidance, not in this repository.
 - Live tests require `IMESSAGE_ENABLE_LIVE_TESTS=1`, `IMESSAGE_LIVE_ALLOW_SEND=1`, and `IMESSAGE_LIVE_TO`.
-- The CLI must not read Contacts or Messages history. Handle resolution belongs to private workspace guidance outside this public repository.
-- Do not add received-message reading, contact discovery, group messaging, or background sync behavior without a new RFC.
+- Do not add message modification, group messaging, SMS fallback, or background sync behavior without a new RFC.
 
 ## Maintenance
 

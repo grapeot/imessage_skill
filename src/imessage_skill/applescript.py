@@ -53,7 +53,9 @@ def subprocess_runner(command: list[str], timeout: int) -> CommandResult:
 
 
 def build_send_command(handle: str, message: str) -> list[str]:
-    return ["osascript", "-e", SEND_SCRIPT, handle, message]
+    # "--" stops osascript option parsing so a dash-prefixed handle/message is
+    # passed to the run handler, never interpreted as an osascript flag (e.g. -e).
+    return ["osascript", "-e", SEND_SCRIPT, "--", handle, message]
 
 
 def build_doctor_command() -> list[str]:
