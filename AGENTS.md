@@ -15,8 +15,7 @@ It is not a message editor, contact manager, chat archive tool, or broad Message
 
 - `README.md`: public installation and usage guide for humans and agents.
 - `docs/prd.md`: product scope, requirements, and success criteria.
-- `docs/rfc.md`: send-path architecture, AppleScript bridge, privacy, and permission decisions.
-- `docs/rfc_read.md`: read-path architecture (read-only `chat.db` access, `streamtyped` body decoding, `--confirm-read` gate).
+- `docs/rfc.md`: single architecture RFC covering both the send path (AppleScript bridge) and the read path (read-only `chat.db` access, `streamtyped` body decoding, `--confirm-read` gate), plus shared privacy and permission decisions.
 - `docs/test.md`: offline, mocked, and live integration test strategy.
 - `docs/working.md`: changelog and lessons learned.
 - `skills/skill_imessage.md`: canonical agent skill contract.
@@ -44,5 +43,5 @@ It is not a message editor, contact manager, chat archive tool, or broad Message
 ## Maintenance
 
 - Update `docs/working.md` after meaningful design or implementation changes.
-- Keep `docs/rfc.md`, `docs/rfc_read.md`, `docs/test.md`, and `skills/skill_imessage.md` aligned with CLI contract changes.
+- Keep `docs/rfc.md`, `docs/test.md`, and `skills/skill_imessage.md` aligned with CLI contract changes.
 - This directory is an independent git repository. Commit from this repository root, not from a parent workspace.

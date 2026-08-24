@@ -2,6 +2,12 @@
 
 ## Changelog
 
+### 2026-08-24 (RFC consolidation)
+
+- Merged `docs/rfc.md` (send path) and `docs/rfc_read.md` (read path) into a single `docs/rfc.md` covering both paths plus shared concerns (privacy, macOS permissions, alternatives). Rewrote the prose for consistency; restructured into Send Path / Read Path / Shared Concerns sections.
+- Fact-drift audit (independent sub-agent pass): no dropped or altered technical facts; only language and structure changed.
+- Removed `docs/rfc_read.md`; updated `AGENTS.md` project-structure and maintenance references.
+
 ### 2026-08-24 (read-path correctness fixes)
 
 - Fixed search time-window SQL precedence: wrapped the `text OR attributedBody` candidate predicate in parentheses so `--since`/`--until` now constrain both branches, not just the `attributedBody` one.
